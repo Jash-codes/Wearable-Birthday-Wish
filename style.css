@@ -1,48 +1,128 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
 body{
-font-family: Arial;
-text-align:center;
-background: linear-gradient(45deg,#ff758c,#ff7eb3);
-color:white;
+background: linear-gradient(135deg,#ff758c,#ff7eb3);
 height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-flex-direction:column;
-}
-
-input{
-padding:10px;
-margin:10px;
-border:none;
-border-radius:5px;
-}
-
-button{
-padding:12px 20px;
-border:none;
-border-radius:8px;
-background:white;
-color:black;
-font-weight:bold;
-cursor:pointer;
-margin:10px;
+text-align:center;
+color:white;
+padding:20px;
 }
 
 .container{
-animation: fadeIn 2s ease;
-}
-
-@keyframes fadeIn{
-from{opacity:0; transform:scale(0.8)}
-to{opacity:1; transform:scale(1)}
+width:100%;
+max-width:400px;
+background:rgba(255,255,255,0.1);
+padding:25px;
+border-radius:15px;
+backdrop-filter:blur(10px);
+animation:fadeIn 1.5s ease;
 }
 
 h1{
-font-size:40px;
-animation: bounce 2s infinite;
+font-size:2rem;
+margin-bottom:20px;
+animation:bounce 2s infinite;
+}
+
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:none;
+border-radius:8px;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:10px;
+font-size:16px;
+font-weight:bold;
+background:white;
+color:#ff4d6d;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#ffe0e6;
+}
+
+.btn-group{
+display:flex;
+flex-direction:column;
+gap:10px;
+margin-top:20px;
+}
+
+#link{
+margin-top:15px;
+word-wrap:break-word;
+}
+
+a{
+color:white;
+font-weight:bold;
+}
+
+@keyframes fadeIn{
+from{
+opacity:0;
+transform:scale(0.9);
+}
+to{
+opacity:1;
+transform:scale(1);
+}
 }
 
 @keyframes bounce{
 0%,100%{transform:translateY(0)}
-50%{transform:translateY(-10px)}
+50%{transform:translateY(-8px)}
+}
+
+/* MOBILE SMALL SCREENS */
+@media (max-width:480px){
+
+h1{
+font-size:1.5rem;
+}
+
+button{
+font-size:14px;
+padding:10px;
+}
+
+input{
+font-size:14px;
+}
+
+}
+
+/* SMARTWATCH / VERY SMALL SCREEN */
+@media (max-width:300px){
+
+.container{
+padding:15px;
+}
+
+h1{
+font-size:1.2rem;
+}
+
+button{
+font-size:12px;
+}
+
 }
