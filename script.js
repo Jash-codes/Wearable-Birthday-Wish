@@ -167,16 +167,18 @@ document.removeEventListener("touchend", stopDrag);
 makeDraggable(textOverlay);
 
 
-/* SAVE IMAGE */
 saveBtn.onclick = () => {
 
-html2canvas(canvas).then(canvasImage => {
+html2canvas(canvas,{
+scale:2,
+useCORS:true
+}).then(canvasImage => {
 
 const link = document.createElement("a");
 
 link.download = "birthday_card.png";
 
-link.href = canvasImage.toDataURL();
+link.href = canvasImage.toDataURL("image/png");
 
 link.click();
 
