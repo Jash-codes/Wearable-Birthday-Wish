@@ -1,28 +1,137 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Wearable Birthday Wish Generator</title>
 
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Birthday Wish Creator</title>
+
 <link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
 </head>
 
 <body>
 
-<div class="container">
+<header>
 
-<h1>🎉 Smart Birthday Wish</h1>
+<h1>🎂 Wearable Birthday Wish Generator</h1>
 
-<input id="name" placeholder="Enter Name">
+<p>Create memorable birthday greetings with templates, stickers, and animations.</p>
 
-<input id="message" placeholder="Birthday Message">
+</header>
 
-<button onclick="generateLink()">Generate Private Link</button>
 
-<p id="link"></p>
+<section class="editor">
+
+<div class="left-panel">
+
+<h2>Message Editor</h2>
+
+<label>Birthday Message</label>
+<textarea id="messageInput" placeholder="Type birthday wish..."></textarea>
+
+<label>Font Family</label>
+<select id="fontSelect">
+
+<option value="Arial">Arial</option>
+<option value="Verdana">Verdana</option>
+<option value="Georgia">Georgia</option>
+<option value="Courier New">Courier</option>
+<option value="Comic Sans MS">Comic</option>
+<option value="Times New Roman">Times</option>
+<option value="Impact">Impact</option>
+
+</select>
+
+<label>Text Color</label>
+<input type="color" id="textColor">
+
+<label>Font Size</label>
+<input type="range" id="fontSize" min="16" max="80" value="32">
+
+<button id="applyTextBtn">Apply Text</button>
 
 </div>
+
+
+
+<div class="center-panel">
+
+<div id="cardCanvas">
+
+<img id="templateImage" src="templates/t1.jpg">
+
+<div id="textOverlay"></div>
+
+<div id="stickersLayer"></div>
+
+</div>
+
+</div>
+
+
+<div class="right-panel">
+
+<h2>Templates</h2>
+
+<div class="templateGrid">
+
+<img src="templates/t1.jpg" class="templateItem">
+<img src="templates/t2.jpg" class="templateItem">
+<img src="templates/t3.jpg" class="templateItem">
+<img src="templates/t4.jpg" class="templateItem">
+<img src="templates/t5.jpg" class="templateItem">
+<img src="templates/t6.jpg" class="templateItem">
+<img src="templates/t7.jpg" class="templateItem">
+<img src="templates/t8.jpg" class="templateItem">
+<img src="templates/t9.jpg" class="templateItem">
+<img src="templates/t10.jpg" class="templateItem">
+
+</div>
+
+
+<h2>Stickers</h2>
+
+<div class="stickerPanel">
+
+<span class="sticker">🎂</span>
+<span class="sticker">🎉</span>
+<span class="sticker">🎁</span>
+<span class="sticker">🎈</span>
+<span class="sticker">🥳</span>
+<span class="sticker">💖</span>
+<span class="sticker">⭐</span>
+<span class="sticker">🌟</span>
+<span class="sticker">🍰</span>
+<span class="sticker">🎊</span>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section class="actions">
+
+<button id="saveBtn">Save Image</button>
+
+<button id="recordBtn">Record Animation</button>
+
+<button id="shareBtn">Generate Private Link</button>
+
+</section>
+
+
+<footer>
+
+<p>Wearable UX Assignment Project</p>
+
+</footer>
+
 
 <script src="script.js"></script>
 
