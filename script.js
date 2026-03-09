@@ -213,3 +213,12 @@ textOverlay.innerText = decodeURIComponent(wish);
 }
 
 };
+
+const photoSize = document.getElementById("photoSize");
+
+photoSize.oninput = () => {
+
+uploadedPhoto.style.width = photoSize.value + "px";
+uploadedPhoto.style.height = photoSize.value + "px";
+
+};
