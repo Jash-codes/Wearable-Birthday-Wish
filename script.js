@@ -1,197 +1,199 @@
-const messageInput = document.getElementById("messageInput")
+// ELEMENTS
+const messageInput = document.getElementById("messageInput");
+const fontSelect = document.getElementById("fontSelect");
+const textColor = document.getElementById("textColor");
+const fontSize = document.getElementById("fontSize");
+const applyTextBtn = document.getElementById("applyTextBtn");
 
-const fontSelect = document.getElementById("fontSelect")
+const textOverlay = document.getElementById("textOverlay");
+const templateItems = document.querySelectorAll(".templateItem");
+const templateImage = document.getElementById("templateImage");
 
-const textColor = document.getElementById("textColor")
+const stickers = document.querySelectorAll(".sticker");
+const stickersLayer = document.getElementById("stickersLayer");
 
-const fontSize = document.getElementById("fontSize")
-
-const applyTextBtn = document.getElementById("applyTextBtn")
-
-const textOverlay = document.getElementById("textOverlay")
-
-const templateItems = document.querySelectorAll(".templateItem")
-
-const templateImage = document.getElementById("templateImage")
-
-const stickers = document.querySelectorAll(".sticker")
-
-const stickersLayer = document.getElementById("stickersLayer")
-
-const saveBtn = document.getElementById("saveBtn")
-
-const shareBtn = document.getElementById("shareBtn")
-
-const recordBtn = document.getElementById("recordBtn")
+const saveBtn = document.getElementById("saveBtn");
+const shareBtn = document.getElementById("shareBtn");
 
 
+// APPLY TEXT
+applyTextBtn.onclick = () => {
 
-applyTextBtn.onclick = () =>
-{
-textOverlay.innerText = messageInput.value
+textOverlay.innerText = messageInput.value;
 
-textOverlay.style.fontFamily = fontSelect.value
+textOverlay.style.fontFamily = fontSelect.value;
 
-textOverlay.style.color = textColor.value
+textOverlay.style.color = textColor.value;
 
-textOverlay.style.fontSize = fontSize.value + "px"
-}
+textOverlay.style.fontSize = fontSize.value + "px";
 
-
-
-templateItems.forEach(template =>
-{
-template.onclick = () =>
-{
-templateImage.src = template.src
-}
-})
+};
 
 
+// TEMPLATE SWITCH
+templateItems.forEach(template => {
 
-stickers.forEach(sticker =>
-{
+template.onclick = () => {
 
-sticker.onclick = () =>
-{
+templateImage.src = template.src;
 
-const newSticker = document.createElement("div")
+};
 
-newSticker.innerText = sticker.innerText
-
-newSticker.style.position = "absolute"
-
-newSticker.style.left = Math.random()*300 + "px"
-
-newSticker.style.top = Math.random()*300 + "px"
-
-newSticker.style.fontSize = "40px"
-
-newSticker.style.cursor = "move"
-
-stickersLayer.appendChild(newSticker)
-
-dragElement(newSticker)
-
-}
-
-})
+});
 
 
+// ADD STICKERS
+stickers.forEach(sticker => {
 
-function dragElement(elmnt)
-{
+sticker.onclick = () => {
 
-let pos1=0,pos2=0,pos3=0,pos4=0
+const newSticker = document.createElement("div");
 
-elmnt.onmousedown = dragMouseDown
+newSticker.innerText = sticker.innerText;
 
-function dragMouseDown(e)
-{
+newSticker.style.position = "absolute";
 
-e = e || window.event
+newSticker.style.left = "120px";
 
-e.preventDefault()
+newSticker.style.top = "120px";
 
-pos3 = e.clientX
+newSticker.style.fontSize = "40px";
 
-pos4 = e.clientY
+newSticker.style.cursor = "grab";
 
-document.onmouseup = closeDrag
+newSticker.classList.add("draggable");
 
-document.onmousemove = elementDrag
+stickersLayer.appendChild(newSticker);
 
-}
+enableDrag(newSticker);
 
-function elementDrag(e)
-{
+};
 
-e = e || window.event
+});
 
-e.preventDefault()
 
-pos1 = pos3 - e.clientX
+// ENABLE DRAG
+function enableDrag(element){
 
-pos2 = pos4 - e.clientY
+let offsetX = 0;
+let offsetY = 0;
+let isDragging = false;
 
-pos3 = e.clientX
+element.addEventListener("mousedown", startDrag);
+element.addEventListener("touchstart", startDrag);
 
-pos4 = e.clientY
+function startDrag(e){
 
-elmnt.style.top = (elmnt.offsetTop - pos2) + "px"
+isDragging = true;
 
-elmnt.style.left = (elmnt.offsetLeft - pos1) + "px"
+const rect = element.getBoundingClientRect();
 
-}
+if(e.type === "touchstart"){
 
-function closeDrag()
-{
-document.onmouseup = null
-document.onmousemove = null
+offsetX = e.touches[0].clientX - rect.left;
+offsetY = e.touches[0].clientY - rect.top;
+
+document.addEventListener("touchmove", drag);
+document.addEventListener("touchend", stopDrag);
+
+}else{
+
+offsetX = e.clientX - rect.left;
+offsetY = e.clientY - rect.top;
+
+document.addEventListener("mousemove", drag);
+document.addEventListener("mouseup", stopDrag);
+
 }
 
 }
 
+function drag(e){
 
+if(!isDragging) return;
 
-dragElement(textOverlay)
+let x;
+let y;
 
+if(e.type === "touchmove"){
 
+x = e.touches[0].clientX - offsetX;
+y = e.touches[0].clientY - offsetY;
 
-saveBtn.onclick = () =>
-{
+}else{
 
-html2canvas(document.getElementById("cardCanvas")).then(canvas =>
-{
-
-let link = document.createElement("a")
-
-link.download = "birthday_wish.png"
-
-link.href = canvas.toDataURL()
-
-link.click()
-
-})
+x = e.clientX - offsetX;
+y = e.clientY - offsetY;
 
 }
 
-
-
-shareBtn.onclick = () =>
-{
-
-let text = messageInput.value
-
-let encoded = encodeURIComponent(text)
-
-let url = window.location.href + "?wish=" + encoded
-
-alert("Private Link:\n" + url)
+element.style.left = x + "px";
+element.style.top = y + "px";
 
 }
 
+function stopDrag(){
 
+isDragging = false;
 
-window.onload = () =>
-{
+document.removeEventListener("mousemove", drag);
+document.removeEventListener("mouseup", stopDrag);
 
-const params = new URLSearchParams(window.location.search)
+document.removeEventListener("touchmove", drag);
+document.removeEventListener("touchend", stopDrag);
 
-const wish = params.get("wish")
-
-if(wish)
-{
-textOverlay.innerText = decodeURIComponent(wish)
 }
 
 }
 
 
+// ENABLE DRAG FOR TEXT
+enableDrag(textOverlay);
 
-recordBtn.onclick = () =>
-{
 
-alert("Video recording feature can capture animation in wearable devices.")
+// SAVE IMAGE
+saveBtn.onclick = () => {
+
+html2canvas(document.getElementById("cardCanvas")).then(canvas => {
+
+const link = document.createElement("a");
+
+link.download = "birthday_card.png";
+
+link.href = canvas.toDataURL();
+
+link.click();
+
+});
+
+};
+
+
+// SHARE LINK
+shareBtn.onclick = () => {
+
+let text = messageInput.value;
+
+let encoded = encodeURIComponent(text);
+
+let url = window.location.href + "?wish=" + encoded;
+
+alert("Private Link:\n" + url);
+
+};
+
+
+// LOAD SHARED TEXT
+window.onload = () => {
+
+const params = new URLSearchParams(window.location.search);
+
+const wish = params.get("wish");
+
+if(wish){
+
+textOverlay.innerText = decodeURIComponent(wish);
 
 }
+
+};
